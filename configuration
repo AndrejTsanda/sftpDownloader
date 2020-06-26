@@ -1,0 +1,9 @@
+sftp_host=192.168.14.1
+sftp_port=2222
+sftp_user=andrej
+sftp_password=pass
+sftp_remote_dir=/DCIM/Camera/
+local_dir=./
+sql_user=root
+sql_password=root
+sql_database=jdbc:mysql://localhost:3306/downloader_db
