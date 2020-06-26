@@ -6,4 +6,4 @@ sftp_remote_dir=/DCIM/Camera/
 local_dir=./
 sql_user=root
 sql_password=root
-sql_database=jdbc:mysql://localhost:3306/downloader_db
+sql_database=jdbc:mysql://localhost:3306/downloader_db?serverTimezone=UTC
