@@ -47,10 +47,12 @@ public class SFTPDownloader {
     Vector listFiles = sftpClient.getListFiles(properties.getProperty("sftp_remote_dir"));
     for (Object files : listFiles) {
       LsEntry lsEntry = (LsEntry) files;
-      sftpClient.download(
-          properties.getProperty("sftp_remote_dir") + lsEntry.getFilename(),
-          properties.getProperty("local_dir") + lsEntry.getFilename());
-      mysqlClient.save(lsEntry.getFilename(), new Timestamp(System.currentTimeMillis()));
+      if (!lsEntry.getAttrs().isDir()) {
+        sftpClient.download(
+            properties.getProperty("sftp_remote_dir") + lsEntry.getFilename(),
+            properties.getProperty("local_dir") + lsEntry.getFilename());
+        mysqlClient.save(lsEntry.getFilename(), new Timestamp(System.currentTimeMillis()));
+      }
     }
     logger.debug("Download is done.");
 
