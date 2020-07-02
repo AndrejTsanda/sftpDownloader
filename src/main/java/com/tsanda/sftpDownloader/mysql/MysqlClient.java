@@ -20,16 +20,14 @@ public class MysqlClient {
     this.password = password;
   }
 
-  public void connect() {
+  public void connect() throws SQLException {
     logger.debug("Connecting database...");
     try {
       Class.forName("com.mysql.cj.jdbc.Driver");
       connection = DriverManager.getConnection(url, userName, password);
       logger.debug("Successful connection.");
     } catch (ClassNotFoundException e) {
-      logger.warn("Connect to database failed." + e);
-    } catch (SQLException e) {
-      logger.warn("Connect to database failed." + e);
+      logger.warn("Failed to connection database." + e);
     }
   }
 

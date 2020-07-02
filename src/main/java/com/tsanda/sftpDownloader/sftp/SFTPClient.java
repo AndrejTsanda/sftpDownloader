@@ -25,21 +25,17 @@ public class SFTPClient {
     this.port = port;
   }
 
-  public void connect() {
+  public void connect() throws JSchException {
     logger.debug("Connecting...");
     JSch jSch = new JSch();
-    try {
-      session = jSch.getSession(userName, host, port);
-      session.setPassword(password);
-      session.setConfig("StrictHostKeyChecking", "no");
-      session.connect();
-      Channel channel = session.openChannel("sftp");
-      channel.connect();
-      channelSftp = (ChannelSftp) channel;
-      logger.debug("Successful connection.");
-    } catch (JSchException e) {
-      logger.warn(e);
-    }
+    session = jSch.getSession(userName, host, port);
+    session.setPassword(password);
+    session.setConfig("StrictHostKeyChecking", "no");
+    session.connect();
+    Channel channel = session.openChannel("sftp");
+    channel.connect();
+    channelSftp = (ChannelSftp) channel;
+    logger.debug("Successful connection.");
   }
 
   public Vector getListFiles(String path) {
@@ -47,7 +43,7 @@ public class SFTPClient {
       Vector listFiles = channelSftp.ls(path);
       return listFiles;
     } catch (SftpException e) {
-      logger.warn(e);
+      logger.warn("Something went wrong: " + e.getMessage());
     }
     return null;
   }
@@ -56,7 +52,7 @@ public class SFTPClient {
     try {
       channelSftp.get(source, destination);
     } catch (SftpException e) {
-      logger.warn(e);
+      logger.warn("Something went wrong: " + e);
     }
   }
 
